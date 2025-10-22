@@ -1,0 +1,59 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get tag name
+        id: tag
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Build XPI
+        run: |
+          zip -r -FS rufuz-${{ steps.tag.outputs.tag }}.xpi \
+            manifest.json \
+            background.js \
+            content.js \
+            options.html \
+            options.js \
+            icon-48.png \
+            icon-96.png \
+            icon.svg
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: rufuz-${{ steps.tag.outputs.tag }}.xpi
+          body: |
+            ## Rufuz the quick note guy ${{ steps.tag.outputs.tag }}
+
+            Firefox extension for AI-powered note taking with keyboard shortcuts.
+
+            ### Installation
+            1. Download the `.xpi` file below
+            2. Open Firefox
+            3. Go to `about:addons`
+            4. Click the gear icon → Install Add-on From File
+            5. Select the downloaded `.xpi` file
+
+            ### Requirements
+            - Firefox 109.0 or later
+            - Free Groq API key from [console.groq.com](https://console.groq.com)
+
+            Built with ☕ Claude my guy
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="chrome://global/skin/in-content/common.css">
+  <title>AI Page Notes - Settings</title>
+  <style>
+    body {
+      padding: 0;
+    }
+
+    .setting-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="password"],
+    input[type="text"],
+    select {
+      width: 100%;
+    }
+
+    .help-text {
+      font-size: 0.9em;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    button {
+      margin-top: 8px;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 8px;
+      display: none;
+      border-radius: 4px;
+    }
+
+    .status.success {
+      background-color: var(--green-60);
+      color: white;
+      display: block;
+    }
+
+    .status.error {
+      background-color: var(--red-60);
+      color: white;
+      display: block;
+    }
+
+    .info-box {
+      margin-top: 16px;
+      padding: 12px;
+      background-color: var(--in-content-box-info-background);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <form id="settings-form">
+    <div class="setting-group">
+      <label for="apiKey">Groq API Key</label>
+      <input type="password" id="apiKey" placeholder="Enter your Groq API key">
+      <div class="help-text">
+        Get your free API key from <a href="https://console.groq.com" target="_blank">console.groq.com</a>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <label for="language">Output Language</label>
+      <select id="language">
+        <option value="English">English</option>
+        <option value="Spanish">Español</option>
+        <option value="French">Français</option>
+        <option value="German">Deutsch</option>
+        <option value="Italian">Italiano</option>
+        <option value="Portuguese">Português</option>
+        <option value="Russian">Русский</option>
+        <option value="Japanese">日本語</option>
+        <option value="Chinese">中文</option>
+        <option value="Korean">한국어</option>
+        <option value="Arabic">العربية</option>
+        <option value="Hindi">हिन्दी</option>
+        <option value="Dutch">Nederlands</option>
+        <option value="Swedish">Svenska</option>
+        <option value="Norwegian">Norsk</option>
+        <option value="Danish">Dansk</option>
+        <option value="Finnish">Suomi</option>
+        <option value="Icelandic">Íslenska</option>
+        <option value="Polish">Polski</option>
+        <option value="Turkish">Türkçe</option>
+        <option value="Czech">Čeština</option>
+        <option value="Greek">Ελληνικά</option>
+        <option value="Ukrainian">Українська</option>
+        <option value="Vietnamese">Tiếng Việt</option>
+        <option value="Thai">ไทย</option>
+      </select>
+    </div>
+
+    <div class="setting-group">
+      <label for="savePath">Save Folder</label>
+      <input type="text" id="savePath" placeholder="AI-Notes">
+      <div class="help-text">
+        Saves to Downloads/[folder]. Leave empty to save directly in Downloads
+      </div>
+    </div>
+
+    <button type="submit">Save Settings</button>
+
+    <div id="status" class="status"></div>
+  </form>
+
+  <div class="info-box">
+    <strong>Shortcut:</strong> Alt+Shift+N (customize in <a href="about:addons">Manage Extension Shortcuts</a>)
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

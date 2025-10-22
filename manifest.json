@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "name": "Rufuz the quick note guy",
+  "version": "1.0.0",
+  "description": "Read pages, press a key, get AI notes. That quick note guy.",
+
+  "icons": {
+    "48": "icon-48.png",
+    "96": "icon-96.png"
+  },
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "notifications",
+    "downloads",
+    "<all_urls>"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+
+  "commands": {
+    "capture-notes": {
+      "suggested_key": {
+        "default": "Alt+Shift+N"
+      },
+      "description": "Capture and save page notes"
+    }
+  }
+}
