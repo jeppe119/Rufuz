@@ -4,6 +4,12 @@
   "version": "1.0.0",
   "description": "Read pages, press a key, get AI notes. That quick note guy.",
 
+  "browser_specific_settings": {
+      "gecko": {
+        "id": "{012c50e3-e926-4549-b275-840582e421c9}"
+      }
+    },
+
   "icons": {
     "48": "icon-48.png",
     "96": "icon-96.png"
