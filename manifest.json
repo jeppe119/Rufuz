@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Rufuz the quick note guy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Read pages, press a key, get AI notes. That quick note guy.",
 
   "browser_specific_settings": {
