@@ -16,41 +16,65 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install web-ext
+        run: npm install -g web-ext
+
       - name: Get tag name
         id: tag
         run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-      - name: Build XPI
+      - name: Sign extension with Mozilla
         run: |
-          zip -r -FS rufuz-${{ steps.tag.outputs.tag }}.xpi \
-            manifest.json \
-            background.js \
-            content.js \
-            options.html \
-            options.js \
-            icon-48.png \
-            icon-96.png \
-            icon.svg
+          web-ext sign \
+            --api-key=${{ secrets.AMO_JWT_ISSUER }} \
+            --api-secret=${{ secrets.AMO_JWT_SECRET }} \
+            --channel=unlisted
+
+      - name: Find signed XPI
+        id: xpi
+        run: |
+          XPI_FILE=$(ls web-ext-artifacts/*.xpi | head -n 1)
+          echo "file=$XPI_FILE" >> $GITHUB_OUTPUT
+          echo "filename=$(basename $XPI_FILE)" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: rufuz-${{ steps.tag.outputs.tag }}.xpi
+          files: ${{ steps.xpi.outputs.file }}
           body: |
             ## Rufuz the quick note guy ${{ steps.tag.outputs.tag }}
 
             Firefox extension for AI-powered note taking with keyboard shortcuts.
 
             ### Installation
-            1. Download the `.xpi` file below
+            1. Download the `.xpi` file below (Mozilla signed)
             2. Open Firefox
-            3. Go to `about:addons`
-            4. Click the gear icon → Install Add-on From File
+            3. Drag the `.xpi` file into Firefox, OR:
+            4. Go to `about:addons` → Gear icon → Install Add-on From File
             5. Select the downloaded `.xpi` file
+
+            ### Features
+            - Press `Alt+Shift+N` to capture page content and get AI notes
+            - Groq API with Llama 3.3 70B (fast & free)
+            - 25+ language support
+            - Automatic markdown file downloads
+            - Works on any webpage
 
             ### Requirements
             - Firefox 109.0 or later
             - Free Groq API key from [console.groq.com](https://console.groq.com)
+
+            ### First Time Setup
+            1. After installation, go to `about:addons`
+            2. Click preferences on "Rufuz the quick note guy"
+            3. Enter your Groq API key
+            4. Set your preferred language and save folder
+            5. Start taking notes with `Alt+Shift+N`!
 
             Built with ☕ Claude my guy
           draft: false
