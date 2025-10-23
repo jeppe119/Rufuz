@@ -15,17 +15,26 @@ A Firefox extension that reads web pages and gets an AI to write notes for you w
 
 ## Installation
 
-### Temporary (you'll need to reload it every time Firefox restarts)
+### Easy Install (Recommended)
 
-1. Download or clone this repo
+1. **Download the latest release**: Go to [Releases](https://github.com/jeppe119/Rufuz/releases/latest) and download the `.xpi` file
+2. **Open Firefox** and drag the `.xpi` file into the browser window, OR:
+   - Go to `about:addons`
+   - Click the gear icon → "Install Add-on From File"
+   - Select the downloaded `.xpi` file
+3. **Configure your API key** (see Configuration below)
+
+The `.xpi` file is Mozilla-signed and works in regular Firefox!
+
+### Development Install (Temporary)
+
+If you want to hack on the code:
+
+1. Clone this repo
 2. Open Firefox and go to `about:debugging#/runtime/this-firefox`
 3. Click "Load Temporary Add-on"
 4. Pick the `manifest.json` file
-5. Set up your API key (see Configuration)
-
-### Permanent (requires signing or Firefox Developer Edition)
-
-Check the notes below if you want it to persist. Temporary gets annoying fast.
+5. Note: You'll need to reload it every time Firefox restarts
 
 ### Requirements
 
@@ -122,21 +131,32 @@ Groq's free tier is pretty solid:
 - Probably conflicts with another extension or browser shortcut
 - Change it in Manage Extension Shortcuts
 
-## Making It Permanent
+## Building from Source
 
-The temporary loading thing gets old. Here's how to fix it:
+Want to build your own signed `.xpi`?
 
-### Option 1: Sign it with Mozilla (works on regular Firefox)
-1. Get `web-ext` tool (via npm, system package manager, or Docker)
-2. Get API credentials from https://addons.mozilla.org/developers/addon/api/key/
-3. Run: `web-ext sign --api-key=YOUR_KEY --api-secret=YOUR_SECRET`
-4. Install the signed `.xpi` file
+### Prerequisites
+```bash
+npm install -g web-ext
+```
 
-### Option 2: Firefox Developer Edition (easiest)
-1. Install Firefox Developer Edition
-2. Go to `about:config`, set `xpinstall.signatures.required` to `false`
-3. Create XPI: `zip -r -FS ../ai-page-notes.xpi * --exclude '*.git*'`
-4. Install via `about:addons` → Install Add-on From File
+### Get API Credentials
+1. Go to https://addons.mozilla.org/developers/addon/api/key/
+2. Generate new credentials
+3. Copy your JWT issuer and secret
+
+### Sign the Extension
+```bash
+web-ext sign \
+  --api-key=YOUR_JWT_ISSUER \
+  --api-secret=YOUR_JWT_SECRET \
+  --channel=unlisted
+```
+
+The signed `.xpi` will be in `web-ext-artifacts/`
+
+### Automated Releases
+This repo has GitHub Actions set up to automatically sign and release the extension when you push a version tag
 
 ## Contributing
 
