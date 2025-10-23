@@ -16,7 +16,7 @@ A Firefox extension that reads web pages and gets an AI to write notes for you w
 ## Installation
 
 ### Easy Install (Recommended)
-
+(or click the .xpi file in [Releases](https://github.com/jeppe119/Rufuz/releases/latest) works with zen browser atleast)
 1. **Download the latest release**: Go to [Releases](https://github.com/jeppe119/Rufuz/releases/latest) and download the `.xpi` file
 2. **Open Firefox** and drag the `.xpi` file into the browser window, OR:
    - Go to `about:addons`
